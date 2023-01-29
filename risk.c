@@ -17,7 +17,7 @@ bool is_continent(int player, int number_of_country,int map[7][6], int count[7][
     int i,j,k = 0;
     for(i=0; i<7; i++){
         for(j=0; j<6; j++){
-            if(map[i][j] == number_of_country && count[7][6] == player){
+            if(map[i][j] == number_of_country && count[i][j] == player){
                 k++;
             }
         }
@@ -31,7 +31,7 @@ bool is_continent(int player, int number_of_country,int map[7][6], int count[7][
 int count_of_continent(int player,int map[7][6], int count[7][6], int count_of_countries[4]){
     int i, k = 0;
     for(i=0; i<4; i++){
-        if(is_continent(player,i,map,count,count_of_countries) == true ){
+        if(is_continent(player,i,map,count,count_of_countries)){
             k++;
         }
     }
@@ -82,10 +82,10 @@ void attack( int* sol1, int* sol2 ){
         count2 = 1;
     }
     int attack[count1], defense[count2];
-    for(i=0; i<count1; ++i){
+    for( i = 0; i < count1; ++i ){
         attack[i] = rand()%6;
     }
-    for(i=0; i<count2; ++i){
+    for( i = 0; i < count2; ++i ){
         defense[i] = rand()%6;
     }
     up_to_down(attack,count1);
@@ -97,6 +97,9 @@ void attack( int* sol1, int* sol2 ){
             *sol2--;
         }
     }
+    /*if( *sol1 == 0 ){
+
+    }*/
 }
 
 bool is_there_any_way(){
@@ -206,7 +209,7 @@ bool is_there_any_way(){
         player1.sol = 15;
         player2.sol = 16;
         done = false;
-        while (!done && (player1.sol > 0 && player2.sol > 0)) {
+  /*      while (!done && (player1.sol > 0 && player2.sol > 0)) {
 
             al_draw_filled_rectangle(170, 135, 270, 195, al_map_rgb(0, 0, 0));
             al_draw_filled_rectangle(270, 135, 370, 225, al_map_rgb(255, 0, 0));
@@ -287,12 +290,57 @@ bool is_there_any_way(){
         }
 
         al_clear_to_color(al_map_rgb(0, 0, 0));
-
+*/
+        done = false;
         int k;
-        while (player1.count != 29 && player2.count != 29) {
+        while (!done && player1.count != 29 && player2.count != 29) {
             k = 0;
-            done = false;
-            while (!done && k < count_of_continent(player1.id, map, count, count_of_countries) + (player1.count/3)) {
+            /*while (!done && k < count_of_continent(player1.id, map, count, count_of_countries) + (player1.count/3)) {
+                al_draw_filled_rectangle(170, 135, 270, 195, al_map_rgb(0, 0, 0));
+                al_draw_filled_rectangle(270, 135, 370, 225, al_map_rgb(255, 0, 0));
+                al_draw_filled_rectangle(370, 135, 470, 255, al_map_rgb(0, 255, 0));
+                al_draw_filled_rectangle(170, 195, 220, 285, al_map_rgb(0, 0, 0));
+                al_draw_filled_rectangle(220, 195, 270, 285, al_map_rgb(0, 0, 255));
+                al_draw_filled_rectangle(170, 285, 270, 315, al_map_rgb(0, 0, 0));
+                al_draw_filled_rectangle(170, 315, 270, 345, al_map_rgb(0, 0, 255));
+                al_draw_filled_rectangle(270, 225, 320, 255, al_map_rgb(0, 0, 255));
+                al_draw_filled_rectangle(320, 225, 370, 315, al_map_rgb(255, 255, 0));
+                al_draw_filled_rectangle(270, 255, 320, 345, al_map_rgb(255, 255, 0));
+                al_draw_filled_rectangle(320, 315, 470, 345, al_map_rgb(0, 0, 255));
+                al_draw_filled_rectangle(370, 255, 470, 345, al_map_rgb(0, 0, 255));
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 180, 135, 0, "%i", sol[0][0]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 180, 165, 0, "%i", sol[1][0]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 180, 195, 0, "%i", sol[2][0]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 180, 225, 0, "%i", sol[3][0]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 180, 255, 0, "%i", sol[4][0]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 180, 285, 0, "%i", sol[5][0]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 230, 135, 0, "%i", sol[0][1]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 230, 165, 0, "%i", sol[1][1]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 230, 285, 0, "%i", sol[5][1]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 280, 135, 0, "%i", sol[0][2]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 280, 165, 0, "%i", sol[1][2]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 280, 195, 0, "%i", sol[2][2]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 330, 135, 0, "%i", sol[0][3]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 330, 165, 0, "%i", sol[1][3]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 330, 195, 0, "%i", sol[2][3]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 330, 225, 0, "%i", sol[3][3]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 330, 255, 0, "%i", sol[4][3]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 330, 285, 0, "%i", sol[5][3]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 280, 255, 0, "%i", sol[4][2]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 280, 285, 0, "%i", sol[5][2]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 280, 315, 0, "%i", sol[6][2]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 380, 135, 0, "%i", sol[0][4]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 380, 165, 0, "%i", sol[1][4]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 380, 195, 0, "%i", sol[2][4]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 380, 225, 0, "%i", sol[3][4]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 430, 135, 0, "%i", sol[0][5]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 430, 165, 0, "%i", sol[1][5]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 430, 195, 0, "%i", sol[2][5]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 430, 225, 0, "%i", sol[3][5]);
+                al_draw_filled_rectangle(500, 400, 565, 380, al_map_rgb(100, 100, 0));
+                al_draw_text(font24, al_map_rgb(0, 0, 0), 500, 380, 0, "next");
+                al_draw_text(font24, al_map_rgb(100,100,0),240,100,0,"add soldiers!");
+                al_flip_display();
                 ALLEGRO_EVENT ev;
                 al_wait_for_event(event_queue,&ev);
                 if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN){
@@ -308,11 +356,55 @@ bool is_there_any_way(){
                         }
                     }
                 }
+            }
+            al_clear_to_color(al_map_rgb(0,0,0));
+            */done = false;
+            while (!done) {
+                al_draw_filled_rectangle(170, 135, 270, 195, al_map_rgb(0, 0, 0));
+                al_draw_filled_rectangle(270, 135, 370, 225, al_map_rgb(255, 0, 0));
+                al_draw_filled_rectangle(370, 135, 470, 255, al_map_rgb(0, 255, 0));
+                al_draw_filled_rectangle(170, 195, 220, 285, al_map_rgb(0, 0, 0));
+                al_draw_filled_rectangle(220, 195, 270, 285, al_map_rgb(0, 0, 255));
+                al_draw_filled_rectangle(170, 285, 270, 315, al_map_rgb(0, 0, 0));
+                al_draw_filled_rectangle(170, 315, 270, 345, al_map_rgb(0, 0, 255));
+                al_draw_filled_rectangle(270, 225, 320, 255, al_map_rgb(0, 0, 255));
+                al_draw_filled_rectangle(320, 225, 370, 315, al_map_rgb(255, 255, 0));
+                al_draw_filled_rectangle(270, 255, 320, 345, al_map_rgb(255, 255, 0));
+                al_draw_filled_rectangle(320, 315, 470, 345, al_map_rgb(0, 0, 255));
+                al_draw_filled_rectangle(370, 255, 470, 345, al_map_rgb(0, 0, 255));
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 180, 135, 0, "%i", sol[0][0]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 180, 165, 0, "%i", sol[1][0]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 180, 195, 0, "%i", sol[2][0]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 180, 225, 0, "%i", sol[3][0]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 180, 255, 0, "%i", sol[4][0]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 180, 285, 0, "%i", sol[5][0]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 230, 135, 0, "%i", sol[0][1]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 230, 165, 0, "%i", sol[1][1]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 230, 285, 0, "%i", sol[5][1]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 280, 135, 0, "%i", sol[0][2]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 280, 165, 0, "%i", sol[1][2]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 280, 195, 0, "%i", sol[2][2]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 330, 135, 0, "%i", sol[0][3]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 330, 165, 0, "%i", sol[1][3]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 330, 195, 0, "%i", sol[2][3]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 330, 225, 0, "%i", sol[3][3]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 330, 255, 0, "%i", sol[4][3]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 330, 285, 0, "%i", sol[5][3]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 280, 255, 0, "%i", sol[4][2]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 280, 285, 0, "%i", sol[5][2]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 280, 315, 0, "%i", sol[6][2]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 380, 135, 0, "%i", sol[0][4]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 380, 165, 0, "%i", sol[1][4]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 380, 195, 0, "%i", sol[2][4]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 380, 225, 0, "%i", sol[3][4]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 430, 135, 0, "%i", sol[0][5]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 430, 165, 0, "%i", sol[1][5]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 430, 195, 0, "%i", sol[2][5]);
+                al_draw_textf(fontt24, al_map_rgb(255, 255, 255), 430, 225, 0, "%i", sol[3][5]);
                 al_draw_filled_rectangle(500, 400, 565, 380, al_map_rgb(100, 100, 0));
                 al_draw_text(font24, al_map_rgb(0, 0, 0), 500, 380, 0, "next");
-            }
-            done = false;
-            while (!done) {
+                al_draw_text(font24, al_map_rgb(100,100,0),240,100,0,"attacking!");
+                al_flip_display();
                 ALLEGRO_EVENT ev;
                 al_wait_for_event(event_queue, &ev);
                 if (ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
@@ -333,15 +425,17 @@ bool is_there_any_way(){
                             }
                             if (is_around(i1, j1, i2, j2)) {
                                 attack(&sol[i1][j1], &sol[i2][j2]);
-                            } else if (pos_y < 400 && pos_y > 380 && pos_x > 500 & pos_x < 565) {
-                                done = true;
+                            }else{
                                 break;
                             }
+                        } else if (pos_y < 400 && pos_y > 380 && pos_x > 500 & pos_x < 565) {
+                            done = true;
+                            break;
                         }
                     }
                 }
             }
-            done = false;
+            /*done = false;
             while (!done){
                 ALLEGRO_EVENT ev;
                 al_wait_for_event(event_queue,&ev);
@@ -410,7 +504,7 @@ bool is_there_any_way(){
                                     }
                                 }
                                 if (is_around(i1, j1, i2, j2)) {
-                                    attack(sol[i1][j1], sol[i2][j2]);
+                                    attack(&sol[i1][j1], &sol[i2][j2]);
                                 } else if (pos_y < 400 && pos_y > 380 && pos_x > 500 & pos_x < 565) {
                                     done = true;
                                     break;
@@ -452,10 +546,10 @@ bool is_there_any_way(){
                     al_draw_filled_rectangle(500, 400, 565, 380, al_map_rgb(100, 100, 0));
                 al_draw_text(font24, al_map_rgb(0, 0, 0), 500, 380, 0, "next");
             }
-            al_flip_display();
+            al_flip_display();*/
         }
 
-        //al_draw_textf(fontt24, al_map_rgb(250, 0, 0), 200, 200, ALLEGRO_ALIGN_CENTRE, "%i hi", player2.sol);
+        al_clear_to_color(al_map_rgb(0,0,0));
         al_draw_text(font24, al_map_rgb(255, 255, 0), 50, 50, 0, "helloo");
         al_flip_display();
         al_rest(5.0);
