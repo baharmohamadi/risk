@@ -75,6 +75,7 @@ bool is_there_any_way(){
 }
 
     int main() {
+        srand(time(0));
         struct player player1, player2, player3, player4;
         int width = 640;
         int height = 480;
@@ -291,7 +292,7 @@ bool is_there_any_way(){
         al_clear_to_color(al_map_rgb(0,0,0));
         done = false;
 
-        int count1,count2,solfirst1,solfirst2;
+        int count1,count2,solfirst1,solfirst2,countfirst1,countfirst2;
 
         while (!done && player1.count != 29 && player2.count != 29) {
             //   k = 0;
@@ -317,6 +318,7 @@ bool is_there_any_way(){
             al_clear_to_color(al_map_rgb(0,0,0));
 */
             k = -1;
+
             while (!done) {
                 al_draw_filled_rectangle(170, 135, 270, 195, al_map_rgb(0, 0, 0));
                 al_draw_filled_rectangle(270, 135, 370, 225, al_map_rgb(255, 0, 0));
@@ -413,18 +415,23 @@ bool is_there_any_way(){
 
                                     solfirst1 = sol[i1][j1];
                                     solfirst2 = sol[i2][j2];
-
+                                    countfirst1 = count1;
+                                    countfirst2 = count2;
                                     for(i=0; i<count2; i++){
                                         if(defense[i] >= attack[i]){
                                             sol[i1][j1]--;
+                                            count1--;
                                         }else{
                                             sol[i2][j2]--;
+                                            count2--;
                                         }
-                                        if(solfirst1 - sol[i1][j1] == count1){
+                                        if(solfirst1 - sol[i1][j1] == countfirst1){
                                             count[i1][j1] = count[i2][j2];
+                                            sol[i1][j1] = count2;
                                             break;
-                                        }else if(solfirst2 - sol[i2][j2] == count2){
+                                        }else if(solfirst2 - sol[i2][j2] == countfirst2){
                                             count[i2][j2] = count[i1][j1];
+                                            sol[i2][j2] = count1;
                                             break;
                                         }
                                     }
