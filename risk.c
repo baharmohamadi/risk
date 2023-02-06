@@ -153,6 +153,7 @@ bool is_there_any_way(int i1,int j1,int i2,int j2,int count[7][6],int player_num
                 sol[i][j] = 1;
             }
         }
+
         //writing map
 
         map[0][0] = 0;
@@ -169,7 +170,7 @@ bool is_there_any_way(int i1,int j1,int i2,int j2,int count[7][6],int player_num
         map[1][2] = 1;
         map[1][3] = 1;
         map[2][2] = 1;
-        map[2][3] = 1;                                  // 2 means urupa
+        map[2][3] = 1;  // 2 means urupa
         map[0][4] = 2;
         map[0][5] = 2;
         map[1][4] = 2;
@@ -177,13 +178,13 @@ bool is_there_any_way(int i1,int j1,int i2,int j2,int count[7][6],int player_num
         map[2][4] = 2;
         map[2][5] = 2;
         map[3][4] = 2;
-        map[3][5] = 2;            // 3 means asia
+        map[3][5] = 2;  // 3 means asia
         map[3][3] = 3;
         map[4][3] = 3;
         map[5][3] = 3;
         map[4][4] = 3;
         map[5][4] = 3;
-        map[6][4] = 3;                                  // 4 means africa
+        map[6][4] = 3;  // 4 means africa
         map[6][0] = 4;
         map[6][1] = 4;
         map[6][3] = 4;
@@ -196,7 +197,7 @@ bool is_there_any_way(int i1,int j1,int i2,int j2,int count[7][6],int player_num
         map[2][1] = 4;
         map[3][1] = 4;
         map[4][1] = 4;
-        map[3][2] = 4;   // 5 means sea
+        map[3][2] = 4; // 5 means sea
 
         // finish writing map
 
@@ -221,6 +222,7 @@ bool is_there_any_way(int i1,int j1,int i2,int j2,int count[7][6],int player_num
         ALLEGRO_TIMER  *timer = al_create_timer(1.0 / 60);
         ALLEGRO_FONT *font24 = al_load_font("font.ttf", 24, 0);
         ALLEGRO_FONT *fontt24 = al_load_font("fontt.ttf", 24, 0);
+        ALLEGRO_FONT *font18 = al_load_font("font.ttf", 18, 0);
         event_queue = al_create_event_queue();
         al_register_event_source(event_queue, al_get_display_event_source(display));
         al_register_event_source(event_queue, al_get_mouse_event_source());
@@ -246,7 +248,35 @@ bool is_there_any_way(int i1,int j1,int i2,int j2,int count[7][6],int player_num
                     pos_x = ev.mouse.x;
                     pos_y = ev.mouse.y;
                     if (pos_x > 100 && pos_x < 260 && pos_y > 155 && pos_y < 185) {
-                        done = true;
+                        while(!done){
+                            al_draw_filled_rectangle(265,144,285,160, al_map_rgb(50,50,50));
+                            al_draw_filled_rectangle(265,162,285,178, al_map_rgb(50,50,50));
+                            al_draw_filled_rectangle(265,180,285,196, al_map_rgb(50,50,50));
+                            al_draw_text(font18, al_map_rgb(255,0,0),275,168,0,"2 members");
+                            al_draw_text(font18, al_map_rgb(255,0,0),275,170,0,"3 members");
+                            al_draw_text(font18, al_map_rgb(255,0,0),275,188,0,"4 members");
+                            al_flip_display();
+                            al_wait_for_event(event_queue,&ev);
+                            if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN){
+                                IF(ev.mouse.button & 1){
+                                    pos_x = ev.mouse.x;
+                                    pos_y = ev.mouse.y;
+                                    if(pos_x > 265 && pos_x <285 && pos_y > 144 && pos_y < 160){
+                                        member = 2;
+                                        done = true;
+                                        break;
+                                    } else if(pos_x > 265 && pos_x <285 && pos_y > 162 && pos_y < 178){
+                                        member = 3;
+                                        done = true;
+                                        break;
+                                    } else if(pos_x > 265 && pos_x <285 && pos_y > 180 && pos_y < 196){
+                                        member = 4;
+                                        done = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
                         break;
                     }
                 }
