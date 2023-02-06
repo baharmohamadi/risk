@@ -70,7 +70,67 @@ void up_to_down( int a[], int size ){
     }
 }
 
-bool is_there_any_way(){
+bool is_there_any_way(int i1,int j1,int i2,int j2,int count[7][6],int player_number){
+    int a[30][30],b[1000],c[1000],d[1000],e[1000],i,j,t=-1,k,m=0;
+    for(i=0; i<7; i++){
+        for(j=0; j<6; j++){
+            a[i][j] = count[i][j];
+        }
+    }
+    i=j1;
+    j=i1;
+    while(i!=i2 || j!=j2){
+        if(a[i+1][j]==player_number && i<7){
+            a[i+1][j]--;
+            b[t]=i;
+            c[t]=j;
+            i++;
+            d[t]=i;
+            e[t]=j;
+            t++;
+        }else if(a[i][j+1]==player_number && j<6){
+            a[i][j+1]--;
+            b[t]=i;
+            c[t]=j;
+            j++;
+            d[t]=i;
+            e[t]=j;
+            t++;
+        }else if(a[i-1][j]==player_number && i>-1){
+            a[i-1][j]--;
+            b[t]=i;
+            c[t]=j;
+            i--;
+            d[t]=i;
+            e[t]=j;
+            t++;
+        }else if(a[i][j-1]==player_number && j>-1){
+            a[i][j-1]--;
+            b[t]=i;
+            c[t]=j;
+            j--;
+            d[t]=i;
+            e[t]=j;
+            t++;
+        }else if(a[b[t-1]][c[t-1]]==-1){
+            a[d[t-1]][e[t-1]]--;
+            i=b[t-1];
+            j=c[t-1];
+            t--;
+        }else if(a[b[t-1]][c[t-1]]==-2){
+            a[d[t-1]][e[t-1]]--;
+            i=b[t-1];
+            j=c[t-1];
+            t--;
+        }else if(a[b[t-1]][c[t-1]]==-3){
+            a[d[t-1]][e[t-1]]--;
+            i=b[t-1];
+            j=c[t-1];
+            t--;
+        }else{
+            return false;
+        }
+    }
     return true;
 }
 
@@ -274,7 +334,7 @@ bool is_there_any_way(){
                         if (pos_x < 540 && pos_x > 500 && pos_y > 400 && pos_y < 420) {
                             done = true;
                             break;
-                        } else if ((pos_y - 135) / 30 > 0 && (pos_y - 135) / 30 < 8 && (pos_x - 170) / 50 > 0 &&
+                        } else if ((pos_y - 135) / 30 >= 0 && (pos_y - 135) / 30 < 8 && (pos_x - 170) / 50 >= 0 &&
                                    (pos_x - 170) / 50 < 7) {
                             sol[(pos_y - 135) / 30][(pos_x - 170) / 50]++;
                             k++;
@@ -374,7 +434,7 @@ bool is_there_any_way(){
                         if (pos_x < 540 && pos_x > 500 && pos_y > 400 && pos_y < 420) {
                             done = true;
                             break;
-                        } else if ((pos_y - 135) / 30 > 0 && (pos_y - 135) / 30 < 8 && (pos_x - 170) / 50 > 0 && (pos_x - 170) / 50 < 7) {
+                        } else if ((pos_y - 135) / 30 >= 0 && (pos_y - 135) / 30 < 8 && (pos_x - 170) / 50 >= 0 && (pos_x - 170) / 50 < 7) {
                             k++;
                             if (k % 2 == 0) {
                                 i1 = (pos_y - 135) / 30;
@@ -435,8 +495,6 @@ bool is_there_any_way(){
                                             break;
                                         }
                                     }
-
-                                    al_draw_filled_rectangle(50,50+k*10,60,60+k*10, al_map_rgb(255,255,255));
                                 }
                             }
                         }
@@ -502,7 +560,7 @@ bool is_there_any_way(){
                         if (pos_x < 540 && pos_x > 500 && pos_y > 400 && pos_y < 420) {
                             done = true;
                             break;
-                        } else if ((pos_y - 135) / 30 > 0 && (pos_y - 135) / 30 < 8 && (pos_x - 170) / 50 > 0 && (pos_x - 170) / 50 < 7) {
+                        } else if ((pos_y - 135) / 30 >= 0 && (pos_y - 135) / 30 < 8 && (pos_x - 170) / 50 >= 0 && (pos_x - 170) / 50 < 7) {
                             k++;
                             if (k % 2 == 0) {
                                 i1 = (pos_y - 135) / 30;
@@ -510,8 +568,12 @@ bool is_there_any_way(){
                             } else if (k % 2 == 1) {
                                 i2 = (pos_y - 135) / 30;
                                 j2 = (pos_x - 170) / 50;
-                                sol[i1][j1]--;
-                                sol[i2][j2]++;
+                                if (is_there_any_way(i1, j1, i2, j2, count, k % 2 + 1)){
+                                    sol[i1][j1]--;
+                                    sol[i2][j2]++;
+                                }else {
+                                    al_draw_text(font24, al_map_rgb(255,255,255),30,30,0,"there isnt any way!");
+                                }
                             }
                         }
                     }
